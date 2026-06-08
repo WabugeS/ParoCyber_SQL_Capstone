@@ -10,7 +10,7 @@ Project Overview: Monday Coffee, a fictional online brand selling across India s
 ## Entity Relationship Diagram (ERD)
 To visualize the structural data model and database dependencies of the `monday_coffee` schema, refer to the entity relationship diagram below (source file: `Screenshot 2026-06-07 093706.jpg`):
 
-![Monday Coffee ERD](Screenshot%202026-06-07%20093706.jpg)
+([Screenshot%202026-06-07%20093706.jpg](https://github.com/WabugeS/ParoCyber_SQL_Capstone/blob/main/ERD_screenshot/Screenshot%202026-06-07%20093706.jpg))
 
 ### Schema Relationships
 The database utilizes a relational star/snowflake hybrid design to structure the company's business dimensions and transaction records:
