@@ -1,15 +1,33 @@
 # ParoCyber_SQL_Capstone
 Project Overview: Monday Coffee, a fictional online brand selling across India since Jan 2023, plans to expand into physical stores. Acting as a Data Analyst, you will use SQL to analyze sales, customer, and city data to identify the top three Indian cities best suited for opening their new coffee shop locations.
 
-#Technical Report: Monday Coffee Business Expansion AnalysisProject Overview
+# Technical Report: Monday Coffee Business Expansion AnalysisProject Overview
 -Monday Coffee is a fictional coffee brand that has been successfully operating an online direct-to-consumer delivery service across multiple major cities in India since January 2023. As the company looks to make its first move into physical, brick-and-mortar retail storefronts, this capstone project aims to analyze backend sales, customer populations, satisfaction rankings, and local real estate overhead constraints.  Acting as the lead Data Analyst, I used PostgreSQL to query across four relational datasets to identify the top three Indian cities best suited for establishing Monday Coffee's initial physical flagship store locations
 
-#Dataset Description & Schema Design
+# Dataset Description & Schema Design
 -The project environment utilizes a clean relational layout with strict constraints ensuring data integrity (ON DELETE CASCADE, ON DELETE SET NULL, and logical CHECK rules).  
-#Entity Relationship Mappingcity: 
-- Core geographical dimensions containing city names, populations, ranks, and estimated local baseline rent.  products: Catalog containing individual beverage item stock descriptions and unit base price lists.  customers: Customer profiles tracking regional identity mapping directly via city_id references.  sales: Fact table housing fine-grained transactional tracking lines connecting users, products, revenues, and ratings.
 
-#Table Creation Scripts (DDL)
+## Entity Relationship Diagram (ERD)
+To visualize the structural data model and database dependencies of the `monday_coffee` schema, refer to the entity relationship diagram below (source file: `Screenshot 2026-06-07 093706.jpg`):
+
+![Monday Coffee ERD](Screenshot%202026-06-07%20093706.jpg)
+
+### Schema Relationships
+The database utilizes a relational star/snowflake hybrid design to structure the company's business dimensions and transaction records:
+
+1.   **`city` to `customers` (One-to-Many):** 
+    *   **Relationship:** One city can contain multiple unique customers, but each customer belongs to exactly one city.
+    *   **Implementation:** `city.city_id` (Primary Key) links to `customers.city_id` (Foreign Key). If a city is deleted, the customer's location record updates cleanly to `NULL` to retain historical customer profiles (`ON DELETE SET NULL`).
+
+2. **`products` to `sales` (One-to-Many):** 
+    *   **Relationship:** A single coffee product item can be sold across multiple distinct transaction invoices over time.
+    *   **Implementation:** `products.product_id` (Primary Key) maps to `sales.product_id` (Foreign Key).
+
+3. **`customers` to `sales` (One-to-Many):** 
+    *   **Relationship:** One customer profile can initiate multiple independent sales transactions over their customer lifetime.
+    *   **Implementation:** `customers.customer_id` (Primary Key) connects directly to `sales.customer_id` (Foreign Key).
+
+# Table Creation Scripts (DDL)
 -- Drop the database if it already exists to avoid conflict errors
 DROP DATABASE IF EXISTS monday_coffee;
 
@@ -61,14 +79,14 @@ CREATE TABLE sales (
     CONSTRAINT fk_sales_customer FOREIGN KEY (customer_id) REFERENCES customers(customer_id) ON DELETE CASCADE
 );
 
-#Structured Data Import Rules
+# Structured Data Import Rules
 -To prevent foreign key dependency errors during raw data setup, data must be populated into the environment sequentially following this path:  
 1. city table (Independent dimensional base)
 2. products table (Independent catalog base)
 3. customers table (Dependent on city)
 4. sales table (Dependent on both products and customers)
 
-#Methodology (questions and sql answers) 
+# Methodology (questions and sql answers) 
 -- Drop the database if it already exists to avoid conflict errors
 DROP DATABASE IF EXISTS monday_coffee;
 
