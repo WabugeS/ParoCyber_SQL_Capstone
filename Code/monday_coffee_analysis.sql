@@ -6,9 +6,9 @@ CREATE DATABASE monday_coffee;
 
 -- monday_coffee schemas
 DROP TABLE IF EXISTS sales;
-DROP TABLE IF EXISTS custo;
-DROP TABLE IF EXISTS sales;
-DROP TABLE IF EXISTS sales;
+DROP TABLE IF EXISTS customer;
+DROP TABLE IF EXISTS products;
+DROP TABLE IF EXISTS city;
 
 --Create Tables
 
